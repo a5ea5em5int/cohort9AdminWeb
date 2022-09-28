@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+        {% block head %}
+      <title>  {% block title %} {% endblock %}</title>
+        {% endblock%}
+
+
+    </head>
+    <body>
+      <ul class="nav">
+        {% if not 'email' in session %}
+              <li class="nav-item">
+                <a class="nav-link" href="/login">Login</a>
+              </li>
+        {% endif %}
+        <li class="nav-item">
+          <a class="nav-link" href="/aboutus">About Us</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/contactus">Contact</a>
+        </li>
+        {% if 'email' in session %}
+            <li class="nav-item">
+              <a class="nav-link" href="/logout">Logout</a>
+            </li>
+            <li style="list-style-type: none;">{{session['email']}}</li>
+            <li style="list-style-type: none;"><img src="static/images/{{photo}}" style="width:75px; height:50px" class="rounded-circle"/> </li>
+        {% endif %}
+        
+      </ul>
+          
+           
+              
+            
+        <div class="container-fluid">
+
+        <div class="row">
+
+           <div class="col-md-3">
+            <ul>
+                <li><a href="/products/new">Insert Product</a></li>
+                <li><a href="/products/delete">Delete Product</a></li>
+              
+            </ul>
+           </div>
+           <div class="col-md-9">
+              {% with messages = get_flashed_messages(with_categories=true) %}
+                  {% if messages %}
+                      {% for cat, msg in messages %}
+
+                       <div class="alert alert-{{cat}}">   {{msg}}</div>
+
+                      {% endfor %}
+
+
+                  {% endif %}
+
+              {% endwith %}
+
+               
+            {% block content %}
+
+
+
+            {% endblock %}
+
+           </div>
+            
+        </div>
+    </div>
+
+    </body>
+
+
+
+</html>

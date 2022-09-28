@@ -1,0 +1,14 @@
+1 Git download and install in your computer
+https://git-scm.com/downloads
+
+2. Go to github.com and sign up 
+3. Create new repository named "advweb"
+4. Copy newly created repository link and clone to a specified direcotry.
+for example   folder named "cohort9Data"
+5. YOU CAN SEE 	advweb folder in the cohort9Data .
+6. .git folder will be in advweb folder
+7. your working directory will be advweb folder
+
+
+
+

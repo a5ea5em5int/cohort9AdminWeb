@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% block title %}
+{{title}}
+{% endblock %}
+
+{% block content %}
+
+<table class="table-striped table-bordered">
+    <tr><th>Name</th>
+        <th>Price</th>
+        <th>Category</th>
+        <th>Image
+        </th></tr>
+    {% for record in records %}
+    <tr><td>{{record.name}}</td>
+        <td>{{record.price}}</td>
+        <td>{{record.category}}</td>
+        <td><img src="static/pictures/{{record.filepath}}" style="width:100px; height:75px"></td>
+        <td><a href="/updateProduct/{{record.id}}">Update</a>
+        <a href="/deleteProduct/{{record.id}}"> Delete</a>
+        </td>
+    </tr>
+
+
+    {% endfor %}
+
+
+
+
+
+
+</table>
+
+
+
+
+
+
+{% endblock %}
