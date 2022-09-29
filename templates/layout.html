@@ -26,7 +26,8 @@
               <a class="nav-link" href="/logout">Logout</a>
             </li>
             <li style="list-style-type: none;">{{session['email']}}</li>
-            <li style="list-style-type: none;"><img src="static/images/{{photo}}" style="width:75px; height:50px" class="rounded-circle"/> </li>
+            <li style="list-style-type: none;">
+              <img src="static/images/{{session['filename']}}" style="width:75px; height:50px" class="rounded-circle"/> </li>
         {% endif %}
         
       </ul>
@@ -39,11 +40,13 @@
         <div class="row">
 
            <div class="col-md-3">
+            {% if 'email' in session %} 
             <ul>
                 <li><a href="/products/new">Insert Product</a></li>
                 <li><a href="/products/delete">Delete Product</a></li>
               
             </ul>
+            {% endif %}
            </div>
            <div class="col-md-9">
               {% with messages = get_flashed_messages(with_categories=true) %}

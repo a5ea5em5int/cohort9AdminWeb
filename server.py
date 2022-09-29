@@ -27,7 +27,7 @@ def loginUser():
         userpwd = request.form['password'] # form data by POSt method
         with connectDB() as conn:
             cursor = conn.cursor()
-            cursor.execute("select password,filename from user where email=?",(useremail,))
+            cursor.execute("select password,filename,role from user where email=?",(useremail,))
             row = cursor.fetchone()
             if row==None: 
                 flash("User email does not exist","warning")
@@ -36,7 +36,15 @@ def loginUser():
                 if row['password'] == userpwd:
                     flash("welcome user ","success")
                     session['email']= useremail
-                    return render_template("aboutus.html",photo =row['filename'])
+                    session['filename']=row['filename']
+
+                    role = row['role']
+                    session['role']=role
+                    print(f" role is {role}")
+                    if role=="admin":
+                        return render_template("aboutus.html")
+                    elif role=="user":
+                        return redirect(url_for("showProducts"))
                 else:
                     flash("wrong password . Try again!","warning")
                     return redirect(url_for("loginUser"))
@@ -98,6 +106,8 @@ def aboutus():
 def logout_user():
     if 'email' in session:
         session.pop("email",None)
+        session.pop("filename",None)
+        session.pop("role",None)
     return redirect(url_for("loginUser"))
 
 
@@ -145,7 +155,13 @@ def showProducts():
     with connectDB() as conn:
         cursor = conn.cursor()
         rows = cursor.execute("select * from product").fetchall()
-        return render_template("products.html",records = rows, title="product list")
+        if 'role' in session:
+            rolecarried = session['role']
+            if rolecarried=="user":
+                return render_template("user_products.html",records = rows, title="product list")
+
+            else:
+                return render_template("products.html",records = rows, title="product list")
 
             
 @app.route("/deleteProduct/<int:id>")
@@ -193,7 +209,15 @@ def update_product_db():
 
 
 
-
+""" @app.route("/addTocart/<id>")
+def add_to_cart(id):
+    if 'cart' in session:
+        basket = session['cart']
+        if id in 
+    else:
+        basket={}
+        basket[id]=1
+        session['cart']=basket """
 
 
     

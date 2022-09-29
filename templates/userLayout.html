@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">WebSiteName</a>
+    </div>
+    <ul class="nav navbar-nav">
+        {% if not "email" in session %}
+      <li><a href="/login">Login</a></li>
+      {% endif %}
+      <li><a href="#">Page 1</a></li>
+      <li><a href="#">Page 2</a></li>
+      {% if "email" in session %}
+      <li><a href="/logout">logout</a></li>
+      <li>{{session['email']}}</li>
+      <li><img src="static/images/{{session['filename']}}" style="width:75px; height: 50px;" class="rounded-circle"></li>
+      {% endif %}
+    </ul>
+  </div>
+</nav>
+  
+<div class="container">
+ <div class="row">
+    <div class="col-md-3">
+        <div>some menu here</div>
+        <div>some menu here</div>
+
+    </div>
+
+    <div class="col-md-9">
+
+        {% with messages = get_flashed_messages(with_categories=true) %} 
+        {% if messages %}
+            {% for cat,msg in messages %}
+                   <div class="alert alert-{{cat}}">{{msg}}</div> 
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    {% block  content %}
+    {% endblock %}
+
+
+    </div>
+ </div>
+</div>
+
+</body>
+</html>
+
+
+
