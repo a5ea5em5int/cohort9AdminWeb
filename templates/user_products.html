@@ -11,12 +11,12 @@
         <th>Category</th>
         <th>Image
         </th></tr>
-    {% for record in records %}
-    <tr><td>{{record.name}}</td>
-        <td>{{record.price}}</td>
-        <td>{{record.category}}</td>
-        <td><img src="static/pictures/{{record.filepath}}" style="width:100px; height:75px"></td>
-        <td><a href="/addTocart/{{record.id}}">Add to cart</a>
+    {% for product in products %}
+    <tr><td>{{product.name}}</td>
+        <td>{{product.price}}</td>
+        <td>{{product.category}}</td>
+        <td><img src="static/pictures/{{product.filepath}}" style="width:100px; height:75px"></td>
+        <td><a href="/addTocart/{{product.id}}">Add to cart</a>
        
         </td>
     </tr>
@@ -31,7 +31,7 @@
 
 </table>
 
-
+<a href="/viewCart">view cart</a>
 
 
 

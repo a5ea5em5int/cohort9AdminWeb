@@ -1,0 +1,18 @@
+{% extends "userLayout.html" %}
+{% block title %}
+{{title}}
+{% endblock %}
+
+{% block content %}
+
+    {% for prd in basket %}
+    <div style="border:1px solid palevioletred; display:block width:100%">
+            <div style="width:130px; display:inline-block">{{prd[0]}}</div>
+            <div style="width:180px;display: inline-block;">{{prd[1]}}</div>
+            <div style="width:100px;display: inline-block;">{{prd[2]}}</div>
+            <div style="width:80px;display: inline-block;">{{prd[3]}}</div>
+            <div id="inc{{}}" style="width:50px;display: inline-block;">{{prd[4]}}</div>
+                    </div>
+    {% endfor %}
+
+{% endblock %}

@@ -108,6 +108,7 @@ def logout_user():
         session.pop("email",None)
         session.pop("filename",None)
         session.pop("role",None)
+        session.pop("cart",None)
     return redirect(url_for("loginUser"))
 
 
@@ -158,7 +159,7 @@ def showProducts():
         if 'role' in session:
             rolecarried = session['role']
             if rolecarried=="user":
-                return render_template("user_products.html",records = rows, title="product list")
+                return render_template("user_products.html",products = rows, title="product list")
 
             else:
                 return render_template("products.html",records = rows, title="product list")
@@ -209,19 +210,49 @@ def update_product_db():
 
 
 
-""" @app.route("/addTocart/<id>")
+@app.route("/addTocart/<id>")
 def add_to_cart(id):
-    if 'cart' in session:
-        basket = session['cart']
-        if id in 
+    print(f"id data type is {type(id)} {id}")
+    if 'cart' in session:  # check whether key cart is in session 
+        basket = session['cart']       
+           
+        if id in basket:
+            qty = basket[id]
+            qty = qty+1
+            basket[id] = qty
+            
+        else:
+            print(" in else block new item ")
+            basket[id]=1
+        for k,v in basket.items():
+            print(f" id= {k} =>  {v}")
+        session['cart']= basket
+        return redirect(url_for("showProducts"))
+
+         
     else:
         basket={}
-        basket[id]=1
-        session['cart']=basket """
+        basket[id]=1 #product id is key and qty is value in basket
+        session['cart']=basket
+        return redirect(url_for("showProducts"))
 
 
     
+@app.route("/viewCart")
+def view_cart():
+    basket = session['cart']
+    data_list=[]
+    with connectDB() as conn:
+        cur = conn.cursor()
+        for id,qty in basket.items():
+            prd = cur.execute("select * from product where id=?",(id,)).fetchone()
+            data_list.append([prd['id'],prd['name'],prd['price'],prd['category'],qty])
+        
 
+
+
+
+    return render_template("cart.html", basket= data_list)
 
 
 
