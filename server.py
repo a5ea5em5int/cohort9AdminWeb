@@ -242,17 +242,19 @@ def add_to_cart(id):
 def view_cart():
     basket = session['cart']
     data_list=[]
+    tamt = 0
     with connectDB() as conn:
         cur = conn.cursor()
         for id,qty in basket.items():
             prd = cur.execute("select * from product where id=?",(id,)).fetchone()
-            data_list.append([prd['id'],prd['name'],prd['price'],prd['category'],qty])
-        
+            data_list.append([prd['id'],prd['name'],prd['price'],prd['category'],qty,prd['price']*qty])
+            tamt = tamt + prd['price']*qty
 
 
 
 
-    return render_template("cart.html", basket= data_list)
+
+    return render_template("cart.html", basket= data_list, tmt= tamt)
 
 
 
